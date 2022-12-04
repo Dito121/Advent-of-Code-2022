@@ -1,13 +1,8 @@
 class Solution:
     def __init__(self, file: str):
-        self.left = ""
-        self.right = ""
         self.sum = 0
-        self.key = {}
         letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        for i in range(len(letters)):
-            self.key[letters[i]] = i + 1
-
+        self.key = {letters[i]: i + 1 for i in range(len(letters))}
         with open(file, "r") as file:
             self.lines = [line.strip() for line in file]
 
