@@ -1,3 +1,6 @@
+import re
+
+
 class Solution:
     def __init__(self, file: str):
         self.file = file
@@ -5,23 +8,25 @@ class Solution:
 
         with open(self.file) as file:
             for line in file:
-                self.data.append(
-                    line.translate(
-                        str.maketrans("", "", "abcdefghijklmnopqrstuvwxyz\n[]")
-                    )
+                my_str = line.translate(
+                    str.maketrans("", "", "abcdefghijklmnopqrstuvwxyz\n[]")
                 )
+                self.data.append(re.sub(" +", " ", my_str))
 
-        i = 0
-        while self.data[i] != "":
-            i += 1
+        p_i = 0
+        while self.data[p_i] != "":
+            p_i += 1
 
-        self.instructions = self.data[:i]
-        self.data = self.data[i + 1 :]
-        for i in range(len(self.data)):
-            self.data[i] = self.data[i].strip()
+        self.instructions = self.data[p_i + 1 :]
+        self.data = self.data[:p_i]
+        self.data[-1] = self.data[-1].strip()
+        self.n = int(self.data[-1][-1])
 
-        # print(self.instructions)
-        # print(self.data)
+        for i in range(len(self.instructions)):
+            self.instructions[i] = self.instructions[i].strip()
+
+        print(self.data)
+        print(self.instructions)
 
     def solve_part_1(self) -> int:
         pass
