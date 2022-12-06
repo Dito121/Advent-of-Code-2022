@@ -43,6 +43,6 @@ class Solution:
         return self.answer
 
 
-# answer = Solution("day_4/puzzle_4_data.txt")
-# print("Solution to Puzzle 4 Part 1: ", answer.solve_part_1())
-# print("Solution to Puzzle 4 Part 2: ", answer.solve_part_2())
+answer = Solution("day_4/puzzle_4_data.txt")
+print("Solution to Puzzle 4 Part 1: ", answer.solve_part_1())
+print("Solution to Puzzle 4 Part 2: ", answer.solve_part_2())

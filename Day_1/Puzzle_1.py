@@ -24,6 +24,6 @@ class Solution:
         return sum(self.max[: self.n])
 
 
-# answer = Solution("Day_1/Puzzle_1_Data.txt")
-# print(answer.solve_part_1())
-# print(answer.solve_part_2())
+answer = Solution("Day_1/Puzzle_1_Data.txt")
+print(answer.solve_part_1())
+print(answer.solve_part_2())
