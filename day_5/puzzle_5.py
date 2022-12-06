@@ -39,12 +39,13 @@ class Solution:
 
     def solve_part_1(self) -> int:
         for i in range(len(self.instructions)):
+            self.instructions[i] = self.instructions[i].split()
             for _ in range(int(self.instructions[i][0])):
                 self.data[int(self.instructions[i][-1]) - 1] += self.data[
-                    int(self.instructions[i][3]) - 1
+                    int(self.instructions[i][1]) - 1
                 ][-1]
-                self.data[int(self.instructions[i][3]) - 1] = self.data[
-                    int(self.instructions[i][3]) - 1
+                self.data[int(self.instructions[i][1]) - 1] = self.data[
+                    int(self.instructions[i][1]) - 1
                 ][:-1]
 
         self.part1 = ""
