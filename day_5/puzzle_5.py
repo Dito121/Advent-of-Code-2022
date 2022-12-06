@@ -23,7 +23,7 @@ class Solution:
         self.data = self.data[: p_i - 1]
 
         for i in range(len(self.instructions)):
-            self.instructions[i] = self.instructions[i].strip()
+            self.instructions[i] = self.instructions[i].strip().split()
 
         stacks = [""] * (p_i - 1)
         for i in range(len(self.data) - 1, -1, -1):
@@ -39,7 +39,6 @@ class Solution:
 
     def solve_part_1(self) -> int:
         for i in range(len(self.instructions)):
-            self.instructions[i] = self.instructions[i].split()
             for _ in range(int(self.instructions[i][0])):
                 self.data[int(self.instructions[i][-1]) - 1] += self.data[
                     int(self.instructions[i][1]) - 1
