@@ -37,7 +37,11 @@ class Solution:
                     continue
                 self.data[j] += stacks[i][j]
 
+        self.reset = self.data.copy()
+
     def solve_part_1(self) -> int:
+        self.data = self.reset.copy()
+
         for i in range(len(self.instructions)):
             for _ in range(int(self.instructions[i][0])):
                 self.data[int(self.instructions[i][-1]) - 1] += self.data[
@@ -54,7 +58,21 @@ class Solution:
         return self.part1
 
     def solve_part_2(self) -> int:
-        pass
+        self.data = self.reset.copy()
+
+        for i in range(len(self.instructions)):
+            self.data[int(self.instructions[i][2]) - 1] += self.data[
+                int(self.instructions[i][1]) - 1
+            ][-int(self.instructions[i][0]) :]
+            self.data[int(self.instructions[i][1]) - 1] = self.data[
+                int(self.instructions[i][1]) - 1
+            ][: -int(self.instructions[i][0])]
+
+        self.part2 = ""
+        for i in range(len(self.data)):
+            self.part2 += self.data[i][-1]
+
+        return self.part2
 
 
 # answer = Solution("day_5/puzzle_5_data.txt")
