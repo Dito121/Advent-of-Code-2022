@@ -1,5 +1,4 @@
 import itertools
-import re
 
 
 class Solution:
@@ -20,8 +19,8 @@ class Solution:
             p_i += 1
 
         self.instructions = self.data[p_i + 1 :]
-        self.n = int(self.data[p_i - 1][-2])
         self.data = self.data[: p_i - 1]
+        self.n = len(self.data)
 
         for i in range(len(self.instructions)):
             self.instructions[i] = self.instructions[i].strip()
@@ -37,9 +36,11 @@ class Solution:
                 continue
             self.data[j] += stacks[i][j]
 
+        print(self.instructions)
+
     def solve_part_1(self) -> int:
         for i in range(len(self.instructions)):
-            for j in range(int(self.instructions[i][0])):
+            for _ in range(int(self.instructions[i][0])):
                 self.data[int(self.instructions[i][-1]) - 1] += self.data[
                     int(self.instructions[i][3]) - 1
                 ][-1]
