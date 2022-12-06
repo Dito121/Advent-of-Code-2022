@@ -1,3 +1,4 @@
+import itertools
 import re
 
 
@@ -19,25 +20,42 @@ class Solution:
             p_i += 1
 
         self.instructions = self.data[p_i + 1 :]
+        self.n = int(self.data[p_i - 1][-2])
         self.data = self.data[: p_i - 1]
 
         for i in range(len(self.instructions)):
             self.instructions[i] = self.instructions[i].strip()
 
-        print(self.data)
-        print(self.instructions)
+        stacks = [""] * self.n
+        for i in range(len(self.data) - 1, -1, -1):
+            for j in range(1, len(self.data[i]), 4):
+                stacks[i] += self.data[i][j]
 
-        for i in range(len(self.data), -1, -1):
-            
+        self.data = [""] * self.n
+        for i, j in itertools.product(range(self.n - 1, -1, -1), range(self.n)):
+            if stacks[i][j] == " ":
+                continue
+            self.data[j] += stacks[i][j]
 
     def solve_part_1(self) -> int:
-        pass
+        for i in range(len(self.instructions)):
+            for j in range(int(self.instructions[i][0])):
+                self.data[int(self.instructions[i][-1]) - 1] += self.data[
+                    int(self.instructions[i][3]) - 1
+                ][-1]
+                self.data[int(self.instructions[i][3]) - 1] = self.data[
+                    int(self.instructions[i][3]) - 1
+                ][:-1]
+
+        self.part1 = ""
+        for i in range(len(self.data)):
+            self.part1 += self.data[i][-1]
+
+        return self.part1
 
     def solve_part_2(self) -> int:
         pass
 
-
-# ["ZN", "MCD", "P"]
 
 # answer = Solution("day_5/puzzle_5_data.txt")
 # print("Solution to Puzzle 5 Part 1: ", answer.solve_part_1())
