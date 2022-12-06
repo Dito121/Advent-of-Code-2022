@@ -19,24 +19,23 @@ class Solution:
             p_i += 1
 
         self.instructions = self.data[p_i + 1 :]
+        self.n = int(self.data[p_i - 1][-2])
         self.data = self.data[: p_i - 1]
-        self.n = len(self.data)
 
         for i in range(len(self.instructions)):
             self.instructions[i] = self.instructions[i].strip()
 
-        stacks = [""] * self.n
+        stacks = [""] * (p_i - 1)
         for i in range(len(self.data) - 1, -1, -1):
             for j in range(1, len(self.data[i]), 4):
                 stacks[i] += self.data[i][j]
 
         self.data = [""] * self.n
-        for i, j in itertools.product(range(self.n - 1, -1, -1), range(self.n)):
-            if stacks[i][j] == " ":
-                continue
-            self.data[j] += stacks[i][j]
-
-        print(self.instructions)
+        for i in range(len(stacks) - 1, -1, -1):
+            for j in range(len(self.data)):
+                if stacks[i][j] == " ":
+                    continue
+                self.data[j] += stacks[i][j]
 
     def solve_part_1(self) -> int:
         for i in range(len(self.instructions)):
