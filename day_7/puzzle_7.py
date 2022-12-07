@@ -49,11 +49,11 @@ class Solution:
 
                 p_right += 1
 
-    def solve_part_1(self, node):
-        if not node.children:
-            return
+        # print(RenderTree(self.root))
 
+    def solve_part_1(self, node):
         part1 = 0
+
         for child in node.children:
             if child.type == "dir":
                 part1 += self.solve_part_1(child)
@@ -70,5 +70,5 @@ class Solution:
 
 
 # answer = Solution("day_7/puzzle_7_data.txt")
-# print("Solution to Puzzle 7 Part 1: ", answer.solve_part_1())
+# print("Solution to Puzzle 7 Part 1: ", answer.solve_part_1(answer.root))
 # print("Solution to Puzzle 7 Part 2: ", answer.solve_part_2())
