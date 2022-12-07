@@ -5,7 +5,6 @@ class Solution:
     def __init__(self, file: str):
         self.file = file
         self.data = []
-        self.size = 0
 
         with open(self.file) as file:
             self.data.extend(line.strip().split() for line in file)
@@ -14,7 +13,6 @@ class Solution:
 
         p_right = 1
         while p_right < len(self.data):
-            # print(RenderTree(self.root))
             if self.data[p_right][0] == "break":
                 break
 
@@ -34,8 +32,6 @@ class Solution:
                             type="file",
                             size=int(data[0]),
                         )
-                        if node.size <= 100000:
-                            self.size += node.size
                 continue
 
             elif self.data[p_right][1] == "cd":
@@ -53,7 +49,9 @@ class Solution:
                 p_right += 1
 
     def solve_part_1(self):
-        return self.size
+        # print(RenderTree(self.root))
+
+        return
 
     def solve_part_2(self):
         pass
