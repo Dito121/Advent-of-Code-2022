@@ -14,10 +14,14 @@ class Solution:
 
         p_right = 1
         while p_right < len(self.data):
-            if self.data[p_right][1] == "ls":
+            # print(RenderTree(self.root))
+            if self.data[p_right][0] == "break":
+                break
+
+            elif self.data[p_right][1] == "ls":
                 p_right += 1
                 p_left = p_right
-                while self.data[p_right][0] != "$" and p_right < len(self.data):
+                while self.data[p_right][0] != "$" and p_right < len(self.data) - 1:
                     p_right += 1
 
                 for data in self.data[p_left:p_right]:
