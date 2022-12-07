@@ -53,19 +53,17 @@ class Solution:
         if not node.children:
             return
 
-        next = []
         part1 = 0
         for child in node.children:
             if child.type == "dir":
-                next.append(child)
+                part1 += self.solve_part_1(child)
             else:
                 part1 += child.size
 
         if part1 <= 100000:
             self.part1 += part1
 
-        for child in next:
-            self.solve_part_1(child)
+        return part1
 
     def solve_part_2(self):
         pass
