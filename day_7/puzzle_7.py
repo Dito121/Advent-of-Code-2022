@@ -5,6 +5,7 @@ class Solution:
     def __init__(self, file: str):
         self.file = file
         self.data = []
+        self.part1 = 0
 
         with open(self.file) as file:
             self.data.extend(line.strip().split() for line in file)
@@ -48,10 +49,23 @@ class Solution:
 
                 p_right += 1
 
-    def solve_part_1(self):
-        # print(RenderTree(self.root))
+    def solve_part_1(self, node):
+        if not node.children:
+            return
 
-        return
+        next = []
+        part1 = 0
+        for child in node.children:
+            if child.type == "dir":
+                next.append(child)
+            else:
+                part1 += child.size
+
+        if part1 <= 100000:
+            self.part1 += part1
+
+        for child in next:
+            self.solve_part_1(child)
 
     def solve_part_2(self):
         pass
@@ -60,25 +74,3 @@ class Solution:
 # answer = Solution("day_7/puzzle_7_data.txt")
 # print("Solution to Puzzle 7 Part 1: ", answer.solve_part_1())
 # print("Solution to Puzzle 7 Part 2: ", answer.solve_part_2())
-
-
-"""
-class Dir:
-    def __init__(self, name: str):
-        if files is None:
-            files = []
-
-        self.name = name
-
-    def __str__(self):
-        return f"{self.name} (dir)"
-
-
-class File:
-    def __init__(self, name: str, size: int):
-        self.name = name
-        self.size = size
-
-    def __str__(self):
-        return f"{self.name} (file, size={self.size})"
-"""
