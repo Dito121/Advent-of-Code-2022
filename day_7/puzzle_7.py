@@ -9,47 +9,44 @@ class Solution:
 
         with open(self.file) as file:
             self.data.extend(line.strip().split() for line in file)
-        self.root = Node(self.data[0][2], type="dir")
+        self.root = Node("root", type="dir")
         p_current = self.root
 
         p_right = 1
         while p_right < len(self.data):
-            print(p_right, p_current)
-            if self.data[p_right][0] == "$":
-                if self.data[p_right][1] == "ls":
+            if self.data[p_right][1] == "ls":
+                p_right += 1
+                p_left = p_right
+                while self.data[p_right][0] != "$" and p_right < len(self.data):
                     p_right += 1
-                    p_left = p_right
-                    while self.data[p_right][0] != "$" and p_right < len(self.data):
-                        p_right += 1
 
-                    for data in self.data[p_left:p_right]:
-                        if data[0] == "dir":
-                            node = Node(data[1], parent=p_current, type="dir")
-                        else:
-                            Node(
-                                data[1],
-                                parent=p_current,
-                                type="file",
-                                size=int(data[0]),
-                            )
-                            self.size += int(data[0])
+                for data in self.data[p_left:p_right]:
+                    if data[0] == "dir":
+                        Node(data[1], parent=p_current, type="dir")
+                    else:
+                        node = Node(
+                            data[1],
+                            parent=p_current,
+                            type="file",
+                            size=int(data[0]),
+                        )
+                        if node.size <= 100000:
+                            self.size += node.size
+                continue
 
-                elif self.data[p_right][1] == "cd":
-                    if self.data[p_right][2] == "..":
-                        p_current = p_current.parent
-                        p_right += 1
-                        continue
+            elif self.data[p_right][1] == "cd":
+                if self.data[p_right][2] == "..":
+                    p_current = p_current.parent
 
-                    p_current = filter(
-                        lambda node: node.name[-len(p_current.name) :]
-                        == self.data[p_right][2],
-                        p_current.children,
-                    )
+                else:
+                    children = [
+                        child.name[: len(self.data[p_right][2])]
+                        for child in p_current.children
+                    ]
+                    index = children.index(self.data[p_right][2])
+                    p_current = p_current.children[index]
 
-            p_right += 1
-
-            # for pre, fill, node in RenderTree(self.root):
-            #     print(f"{pre}{node.name}")
+                p_right += 1
 
     def solve_part_1(self):
         return self.size
