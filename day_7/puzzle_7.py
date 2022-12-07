@@ -14,12 +14,13 @@ class Solution:
 
         p_right = 1
         while p_right < len(self.data):
+            print(p_right, p_current)
             if self.data[p_right][0] == "$":
                 if self.data[p_right][1] == "ls":
+                    p_right += 1
                     p_left = p_right
                     while self.data[p_right][0] != "$" and p_right < len(self.data):
                         p_right += 1
-                    print(p_left, p_right)
 
                     for data in self.data[p_left:p_right]:
                         if data[0] == "dir":
@@ -39,13 +40,12 @@ class Solution:
                         p_right += 1
                         continue
 
-                    print(p_current.children)
-                    p_current = Node(
-                        filter(
-                            lambda node: node.name == self.data[p_right][2],
-                            p_current.children,
-                        )
+                    p_current = filter(
+                        lambda node: node.name[-len(p_current.name) :]
+                        == self.data[p_right][2],
+                        p_current.children,
                     )
+
             p_right += 1
 
             # for pre, fill, node in RenderTree(self.root):
