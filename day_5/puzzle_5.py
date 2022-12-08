@@ -1,18 +1,13 @@
-import itertools
-
-
 class Solution:
     def __init__(self, file: str):
         self.file = file
         self.data = []
 
         with open(self.file) as file:
-            for line in file:
-                self.data.append(
-                    line.translate(
-                        str.maketrans("", "", "abcdefghijklmnopqrstuvwxyz\n")
-                    )
-                )
+            self.data.extend(
+                line.translate(str.maketrans("", "", "abcdefghijklmnopqrstuvwxyz\n"))
+                for line in file
+            )
 
         p_i = 0
         while self.data[p_i] != "":
