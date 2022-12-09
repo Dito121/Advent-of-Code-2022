@@ -49,7 +49,7 @@ class Solution:
 
                 p_right += 1
 
-        # print(RenderTree(self.root))
+        # print(RenderTree(self.root)) # use this to see tree
 
     def solve_part_1(self, node):
         part1 = 0
