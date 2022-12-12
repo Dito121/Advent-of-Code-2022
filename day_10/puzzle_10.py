@@ -7,23 +7,29 @@ class Solution:
         with open(self.file, "r") as file:
             self.data = [line.strip().split() for line in file]
 
+    def update_total(self):
+        if (self.cycle - 20) % 40 == 0:
+            self.total += self.x * self.cycle
+
     def solve_part_1(self):
-        cycle = 1
+        self.cycle = 1
 
         for i in range(len(self.data)):
-            if (cycle - 20) % 40 == 0:
-                self.total += self.x * cycle
-
             if self.data[i][0] == "noop":
-                cycle += 1
+                self.cycle += 1
+                self.update_total()
                 continue
 
-            cycle += 2
+            self.cycle += 1
+            self.update_total()
 
             if self.data[i][1][0] == "-":
                 self.x -= int(self.data[i][1][1:])
             else:
                 self.x += int(self.data[i][1])
+
+            self.cycle += 1
+            self.update_total()
 
         return self.total
 
