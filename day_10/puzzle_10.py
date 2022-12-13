@@ -11,29 +11,32 @@ class Solution:
         if (self.cycle - 20) % 40 == 0:
             self.total += self.x * self.cycle
 
-    def solve_part_1(self):
+    def process_x(self, i):
+        if self.data[i][0] == "noop":
+            self.cycle += 1
+            self.update_total()
+            return
+
+        self.cycle += 1
+        self.update_total()
+
+        if self.data[i][1][0] == "-":
+            self.x -= int(self.data[i][1][1:])
+        else:
+            self.x += int(self.data[i][1])
+
+        self.cycle += 1
+        self.update_total()
+
+    def solve_part_1(self) -> int:
         self.cycle = 1
 
         for i in range(len(self.data)):
-            if self.data[i][0] == "noop":
-                self.cycle += 1
-                self.update_total()
-                continue
-
-            self.cycle += 1
-            self.update_total()
-
-            if self.data[i][1][0] == "-":
-                self.x -= int(self.data[i][1][1:])
-            else:
-                self.x += int(self.data[i][1])
-
-            self.cycle += 1
-            self.update_total()
+            self.process_x(i)
 
         return self.total
 
-    def solve_part_2(self):
+    def solve_part_2(self) -> list[str]:
         return
 
 
