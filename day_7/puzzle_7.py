@@ -6,6 +6,7 @@ class Solution:
         self.file = file
         self.data = []
         self.part1 = 0
+        self.space_needed = 30_000_000
 
         with open(self.file) as file:
             self.data.extend(line.strip().split() for line in file)
@@ -25,7 +26,7 @@ class Solution:
 
                 for data in self.data[p_left:p_right]:
                     if data[0] == "dir":
-                        Node(data[1], parent=p_current, type="dir")
+                        Node(data[1], parent=p_current, size=0, type="dir")
                     else:
                         node = Node(
                             data[1],
@@ -52,24 +53,38 @@ class Solution:
         # print(RenderTree(self.root))  # use this to see tree
 
     def solve_part_1(self, node):
-        part1 = 0
+        dir_size = 0
 
         for child in node.children:
             if child.type == "dir":
-                part1 += self.solve_part_1(child)
+                dir_size += self.solve_part_1(child)
             else:
-                part1 += child.size
+                dir_size += child.size
 
-        if part1 <= 100000:
-            self.part1 += part1
+        node.size = dir_size
 
-        return part1
+        if dir_size <= 100000:
+            self.part1 += dir_size
+
+        return dir_size
 
     def solve_part_2(self):
-        pass
+        unused_space = 70_000_000 - self.root.size
+        self.space_needed -= unused_space
+        self.file_to_delete = self.root.size
+
+        def traverse_tree(node):
+            for child in node.children:
+                if child.type == "dir" and child.size >= self.space_needed:
+                    self.file_to_delete = min(self.file_to_delete, child.size)
+                    traverse_tree(child)
+
+        traverse_tree(self.root)
+
+        return self.file_to_delete
 
 
 answer = Solution("day_7/puzzle_7_data.txt")
 answer.solve_part_1(answer.root)
 print("Solution to Puzzle 7 Part 1: ", answer.part1)
-# print("Solution to Puzzle 7 Part 2: ", answer.solve_part_2())
+print("Solution to Puzzle 7 Part 2: ", answer.solve_part_2())

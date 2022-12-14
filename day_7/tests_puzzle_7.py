@@ -8,7 +8,7 @@ class test_problems(unittest.TestCase):
 
         answer.solve_part_1(answer.root)
         self.assertEqual(answer.part1, 95437)
-        # self.assertEqual(answer.solve_part_2(), "")
+        self.assertEqual(answer.solve_part_2(), 24933642)
 
 
 if __name__ == "__main__":
