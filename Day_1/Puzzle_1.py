@@ -1,29 +1,52 @@
 class Solution:
     def __init__(self, file: str, n: int = 3):
-        self.count = 0
         self.n = n
-        self.max = []
+        self.count = 0
+        self.elves = []
         self.file = file
+        self.read_file()
 
+    def read_file(self):
         with open(self.file, "r") as file:
+            """
+            open the text file that contains the data of calories each elf has
+            """
             for line in file:
+                """
+                each line that is not representing the end of an elf's snacks
+                (using an empty line) is added to the current elf's count
+                """
                 if line.strip() != "":
                     self.count += int(line)
                     continue
-
-                self.max.append(self.count)
+                """
+                add this elf's total calorie count to self.elves
+                and reset count for next elf
+                """
+                self.elves.append(self.count)
                 self.count = 0
-            self.max.append(self.count)
+            self.elves.append(self.count)
+        """
+        sort list of elves' calorie counts in descending order
+        """
+        self.elves.sort(reverse=True)
 
-        self.max.sort(reverse=True)
+    def max_calories(self) -> int:
+        """
+        return no. of calories of elf with the most calories
+        """
+        return self.elves[0]
 
-    def solve_part_1(self) -> int:
-        return self.max[0]
+    def max_n_calories(self) -> int:
+        """
+        return total no. of calories of the n elves with the most calories
+        """
+        return sum(self.elves[: self.n])
 
-    def solve_part_2(self) -> int:
-        return sum(self.max[: self.n])
 
-
-answer = Solution("Day_1/Puzzle_1_Data.txt")
-print(answer.solve_part_1())
-print(answer.solve_part_2())
+"""
+runs using the real data whenever the tests are run
+"""
+answer = Solution("day_1/puzzle_1_data.txt")
+print(answer.max_calories())
+print(answer.max_n_calories())

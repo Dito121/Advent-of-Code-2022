@@ -1,13 +1,13 @@
 import unittest
-from Puzzle_1 import Solution
+from puzzle_1 import Solution
 
 
 class test_problems(unittest.TestCase):
     def test_puzzle_1(self):
-        puzzle1 = Solution("Day_1/Puzzle_1_Sample_Data.txt")
+        puzzle1 = Solution("day_1/puzzle_1_sample_data.txt")
 
-        self.assertEqual(puzzle1.solve_part_1(), 24000)
-        self.assertEqual(puzzle1.solve_part_2(), 45000)
+        self.assertEqual(puzzle1.max_calories(), 24000)
+        self.assertEqual(puzzle1.max_n_calories(), 45000)
 
 
 if __name__ == "__main__":
