@@ -1,12 +1,13 @@
 class Solution:
     def __init__(self, file: str, n: int = 3):
+        self.file = file
         self.n = n
         self.count = 0
-        self.elves = []
-        self.file = file
         self.read_file()
 
     def read_file(self):
+        self.elves = []
+
         with open(self.file, "r") as file:
             """
             open the text file that contains the data of calories each elf has
