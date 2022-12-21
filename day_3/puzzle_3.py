@@ -1,21 +1,33 @@
 class Solution:
     def __init__(self, file: str):
-        self.sum = 0
+        self.file = file
         letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
         self.key = {letters[i]: i + 1 for i in range(len(letters))}
-        with open(file, "r") as file:
-            self.lines = [line.strip() for line in file]
+        self.read_file()
+
+    def read_file(self):
+        """
+        read self.file and strip each line as it is added to self.data
+        """
+        with open(self.file, "r") as file:
+            self.data = [line.strip() for line in file]
 
     def solve_part_1(self) -> int:
         self.sum = 0
 
-        for i in range(len(self.lines)):
-            midpoint = len(self.lines[i]) // 2
-            right = self.lines[i][midpoint:]
+        for i in range(len(self.data)):
+            """
+            iterate through the left half of self.data line by line and check
+            if each character is in the right half.
+            keep track of associated value of characters that are found to be
+            in both halves, break once found
+            """
+            midpoint = len(self.data[i]) // 2
+            right = self.data[i][midpoint:]
 
             for j in range(midpoint):
-                if self.lines[i][j] in right:
-                    self.sum += self.key[self.lines[i][j]]
+                if self.data[i][j] in right:
+                    self.sum += self.key[self.data[i][j]]
                     break
 
         return self.sum
@@ -23,15 +35,18 @@ class Solution:
     def solve_part_2(self) -> int:
         self.sum = 0
 
-        for i in range(0, len(self.lines), 3):
-            third = self.lines[i + 2]
-
-            for j in range(len(self.lines[i])):
+        for i in range(0, len(self.data), 3):
+            """
+            for every three lines in self.data, find the letter in all
+            three by iterating through line i and checking if letter
+            is in both i+1 and i+2
+            """
+            for j in range(len(self.data[i])):
                 if (
-                    self.lines[i][j] in self.lines[i + 1]
-                    and self.lines[i][j] in self.lines[i + 2]
+                    self.data[i][j] in self.data[i + 1]
+                    and self.data[i][j] in self.data[i + 2]
                 ):
-                    self.sum += self.key[self.lines[i][j]]
+                    self.sum += self.key[self.data[i][j]]
                     break
 
         return self.sum
