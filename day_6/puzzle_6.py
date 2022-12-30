@@ -1,17 +1,25 @@
 class Solution:
     def __init__(self, file: str):
+        """
+        Read the file using read_file() method.
+        """
         self.file = file
         self.read_file()
 
     def read_file(self):
+        """
+        Read the file.
+        """
         self.data = ""
         with open(self.file) as file:
             for line in file:
                 self.data += line.strip()
 
-    def solve(self, n):
+    def start_of_packet_marker(self, n: int):
         seen = ""
-
+        """
+        Find index where previous n letters are unique.
+        """
         for i in range(len(self.data)):
             if self.data[i] not in seen:
                 seen += self.data[i]
@@ -23,10 +31,10 @@ class Solution:
             seen = seen[j + 1 :] + self.data[i]
 
     def solve_part_1(self) -> int:
-        return self.solve(4)
+        return self.start_of_packet_marker(4)
 
     def solve_part_2(self) -> int:
-        return self.solve(14)
+        return self.start_of_packet_marker(14)
 
 
 answer = Solution("day_6/puzzle_6_data.txt")
