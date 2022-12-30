@@ -1,5 +1,10 @@
 class Solution:
     def __init__(self, file: str):
+        """
+        1. Read the file using read_file() method.
+        2. Reorganize data in self.data using create_stacks() method into self.stacks.
+        3. Prepare instructions using clean_instructions() method.
+        """
         self.file = file
         self.read_file()
         self.create_stacks()
@@ -8,8 +13,14 @@ class Solution:
     def read_file(self):
         self.p_i = 0
         """
-        this finds where the separation between stacks and instructions are in
-        the text file and saves that location as self.p_i
+        1. Find where the separation between stacks and instructions are in
+            the text file and use that to create self.data, self.stacks, and
+            self.instructions.
+        2. Initiate self.stacks as a list of empty strings of length self.n.
+        3. self.data is the information about the stacks but needs to be
+            reorganized into self.stacks.
+        4. self.instructions will need to be cleaned using clean_instructions()
+            method.
         """
         with open(self.file) as file:
             file = list(file.readlines())
@@ -43,21 +54,37 @@ class Solution:
                 )
             )
 
-    def get_stacks(self):
+    def get_stacks(self) -> list:
+        """
+        solve_part1() and solve_part2() methods manipulate the stacks and thus need
+        to be able to reset the stacks as initially read from the file.
+        """
         return self.stacks.copy()
 
-    def move_item_n_times(self, stacks, n, from_stack, to_stack):
+    def move_item_n_times(
+        self, stacks: list, n: int, stack_initial: list, stack_final: list
+    ):
+        """
+        moves n items from stack_initial to stack_final.
+        """
         for _ in range(n):
-            stacks[to_stack] += stacks[from_stack][-1]
-            stacks[from_stack] = stacks[from_stack][:-1]
+            stacks[stack_final] += stacks[stack_initial][-1]
+            stacks[stack_initial] = stacks[stack_initial][:-1]
 
-    def move_n_items(self, stacks, n, from_stack, to_stack):
-        stacks[to_stack] += stacks[from_stack][-n:]
-        stacks[from_stack] = stacks[from_stack][:-n]
+    def move_n_items(
+        self, stacks: list, n: int, stack_initial: list, stack_final: list
+    ):
+        """
+        moves n items from stack_initial to stack_final.
+        """
+        stacks[stack_final] += stacks[stack_initial][-n:]
+        stacks[stack_initial] = stacks[stack_initial][:-n]
 
     def solve_part_1(self) -> int:
         stacks = self.get_stacks()
-
+        """
+        implement self.instructions to move one item at a time, n times.
+        """
         for i in range(len(self.instructions)):
             self.move_item_n_times(
                 stacks,
@@ -74,7 +101,9 @@ class Solution:
 
     def solve_part_2(self) -> int:
         stacks = self.get_stacks()
-
+        """
+        implement self.instructions to move n items.
+        """
         for i in range(len(self.instructions)):
             self.move_n_items(
                 stacks,

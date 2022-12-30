@@ -1,8 +1,10 @@
 class Solution:
     def __init__(self, file: str):
         self.file = file
-        self.data = ""
+        self.read_file()
 
+    def read_file(self):
+        self.data = ""
         with open(self.file) as file:
             for line in file:
                 self.data += line.strip()
