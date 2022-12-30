@@ -14,14 +14,13 @@ class Solution:
 
     def solve_part_1(self) -> int:
         self.sum = 0
-
+        """
+        iterate through the left half of self.data line by line and check
+        if each character is in the right half.
+        keep track of associated value of characters that are found to be
+        in both halves, break once found
+        """
         for i in range(len(self.data)):
-            """
-            iterate through the left half of self.data line by line and check
-            if each character is in the right half.
-            keep track of associated value of characters that are found to be
-            in both halves, break once found
-            """
             midpoint = len(self.data[i]) // 2
             right = self.data[i][midpoint:]
 
@@ -34,13 +33,12 @@ class Solution:
 
     def solve_part_2(self) -> int:
         self.sum = 0
-
+        """
+        for every three lines in self.data, find the letter in all
+        three by iterating through line i and checking if letter
+        is in both i+1 and i+2
+        """
         for i in range(0, len(self.data), 3):
-            """
-            for every three lines in self.data, find the letter in all
-            three by iterating through line i and checking if letter
-            is in both i+1 and i+2
-            """
             for j in range(len(self.data[i])):
                 if (
                     self.data[i][j] in self.data[i + 1]

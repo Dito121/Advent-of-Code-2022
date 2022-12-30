@@ -5,7 +5,9 @@ class Solution:
     def __init__(self, file: str):
         self.file = file
         self.data = []
+        self.read_file()
 
+    def read_file(self):
         with open(self.file) as file:
             for line in file:
                 line = line.strip().split()
