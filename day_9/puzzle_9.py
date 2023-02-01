@@ -16,12 +16,6 @@ class Solution:
     def are_touching(self, p1: list[int, int], p2: list[int, int]) -> bool:
         return np.sqrt((p2[0] - p1[0]) ** 2 + (p2[1] - p1[1]) ** 2) < 1.9
 
-    def update_tail(self):
-        if tuple(self.points[-1]) not in self.path:
-            self.path[tuple(self.points[-1])] = 1
-        else:
-            self.path[tuple(self.points[-1])] += 1
-
     def shift_right(self):
         self.points[0][1] += 1
         for j in range(1, len(self.points)):
@@ -67,15 +61,20 @@ class Solution:
         elif self.data[i][0] == "D":
             self.shift_down()
 
+    def update_path(self):
+        if tuple(self.points[-1]) not in self.path:
+            self.path[tuple(self.points[-1])] = 1
+        else:
+            self.path[tuple(self.points[-1])] += 1
+
     def solve(self, n: int):
-        self.n = n
-        self.points = [[0, 0] for _ in range(self.n)]
+        self.points = [[0, 0] for _ in range(n)]
         self.path = {tuple(self.points[-1]): 1}
 
         for i in range(len(self.data)):
             for _ in range(self.data[i][1]):
                 self.shift_tail(i)
-                self.update_tail()
+                self.update_path()
 
         return len(self.path)
 

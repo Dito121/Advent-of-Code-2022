@@ -6,7 +6,9 @@ class Solution:
         self.file = file
         self.data = []
         self.monkeys = []
+        self.read_file()
 
+    def read_file(self):
         with open(self.file, "r") as file:
             self.data.extend(
                 line.translate(
@@ -16,12 +18,12 @@ class Solution:
                 .split()
                 for line in file
             )
+        print(self.data)
 
     def play_round(self):
         for monkey in self.monkeys:
             monkey.inspect_items()
             throw_to = monkey.test_items()
-            print("Throw to: ", throw_to)
 
             for i in range(len(monkey.items)):
                 self.monkeys[throw_to[i]].items.append(monkey.items[i])
@@ -31,18 +33,16 @@ class Solution:
         for i in range(0, len(self.data), 7):
             self.monkeys.append(Monkey(self.data[i : i + 7]))
 
-        print("Originals: ")
-        for monkey in self.monkeys:
-            print(monkey)
-        print("\n")
+        # for monkey in self.monkeys:
+        #     print(monkey)
+        # print("\n")
 
-        for i in range(1, 21):
+        for _ in range(1, 21):
             self.play_round()
 
-            print(f"After Round {i}: ")
-            for monkey in self.monkeys:
-                print(monkey)
-            print("\n")
+            # for monkey in self.monkeys:
+            #     print(monkey)
+            # print("\n")
 
         return [monkey.inspections for monkey in self.monkeys]
 

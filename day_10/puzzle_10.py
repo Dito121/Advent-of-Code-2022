@@ -3,7 +3,9 @@ class Solution:
         self.file = file
         self.x = 1
         self.total = 0
+        self.read_file()
 
+    def read_file(self):
         with open(self.file, "r") as file:
             self.data = [line.strip().split() for line in file]
 
