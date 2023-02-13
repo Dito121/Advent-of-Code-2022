@@ -1,4 +1,5 @@
 import igraph as ig
+import matplotlib.pyplot as plt
 
 
 class Solution:
@@ -9,6 +10,16 @@ class Solution:
         self.values["S"] = 0
         self.values["E"] = 25
         self.read_file()
+
+    def add_edges(self, row, col, p_curr, width, length, edges):
+        new_edges = []
+
+        if row != length - 1:
+            new_edges.append([p_curr, p_curr + width])
+        if col != width - 1:
+            new_edges.append([p_curr, p_curr + 1])
+
+        return new_edges
 
     def read_file(self):
         names, values, edges = [], [], []
@@ -24,20 +35,16 @@ class Solution:
                 for col in range(len(file[row])):
                     if file[row][col] == "S":
                         self.start = (row, col)
-
                     elif file[row][col] == "E":
                         self.end = (row, col)
 
-                    if row != 0:
-                        edges.append([p_curr, p_curr - len(file[row])])
-                    if row != len(file) - 1:
-                        edges.append([p_curr, p_curr + len(file[row])])
-                    if col != 0:
-                        edges.append([p_curr, p_curr - 1])
-                    if col != len(file[row]) - 1:
-                        edges.append([p_curr, p_curr + 1])
+                    edges.extend(
+                        self.add_edges(
+                            row, col, p_curr, len(file[row]), len(file), edges
+                        )
+                    )
 
-                    names.append(f"{row}, {col}")
+                    names.append((row, col))
                     values.append(self.values[file[row][col]])
                     p_curr += 1
 
@@ -46,5 +53,16 @@ class Solution:
         self.data.vs["value"] = values
 
     def solve_part_1(self):
-        print(self.data)
         return
+
+    def plot_data(self):
+        layout = self.data.layout("kk")
+        fig, ax = plt.subplots()
+        self.data.vs["label"] = self.data.vs["name"]
+        ig.plot(self.data, layout=layout, target=ax)
+        plt.show()
+
+
+# answer = Solution("day_12/puzzle_12_data.txt")
+# answer.solve_part_1()
+# answer.plot_data()

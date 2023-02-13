@@ -8,6 +8,7 @@ anytree = "*"
 black = "*"
 numpy = "*"
 igraph = "*"
+matplotlib = "*"
 
 [dev-packages]
 
