@@ -79,6 +79,6 @@ class Solution:
         return len(self.path)
 
 
-# answer = Solution("day_9/puzzle_9_data.txt")
+# answer = Solution("day_09/puzzle_9_data.txt")
 # print("Solution to Puzzle 9 Part 1: ", answer.solve(2))
 # print("Solution to Puzzle 9 Part 2: ", answer.solve(10))

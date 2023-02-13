@@ -48,6 +48,6 @@ class Solution:
 """
 runs using the real data whenever the tests are run
 """
-answer = Solution("day_1/puzzle_1_data.txt")
+answer = Solution("day_01/puzzle_1_data.txt")
 print(answer.max_calories())
 print(answer.max_n_calories())

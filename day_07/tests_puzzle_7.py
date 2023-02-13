@@ -4,7 +4,7 @@ from puzzle_7 import Solution
 
 class test_problems(unittest.TestCase):
     def test_puzzle_7(self):
-        answer = Solution("day_7/puzzle_7_sample_data.txt")
+        answer = Solution("day_07/puzzle_7_sample_data.txt")
 
         answer.solve_part_1(answer.root)
         self.assertEqual(answer.part1, 95437)

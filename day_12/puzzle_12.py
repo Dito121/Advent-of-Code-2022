@@ -48,12 +48,11 @@ class Solution:
                     values.append(self.values[file[row][col]])
                     p_curr += 1
 
+        self.unvisited = set(names)
         self.data = ig.Graph(n=vertices, edges=edges)
         self.data.vs["name"] = names
         self.data.vs["value"] = values
-
-    def solve_part_1(self):
-        return
+        self.data.vs["distance"] = [None] * len(values)
 
     def plot_data(self):
         layout = self.data.layout("kk")
@@ -61,6 +60,40 @@ class Solution:
         self.data.vs["label"] = self.data.vs["name"]
         ig.plot(self.data, layout=layout, target=ax)
         plt.show()
+
+    def solve_part_1(self):
+        start = self.data.vs.find(name=self.start)
+        start["distance"] = 0
+        queue = [start]
+
+        while queue:
+            p_curr = queue.pop(0)
+
+            if p_curr["name"] not in self.unvisited:
+                continue
+            if p_curr["name"] == self.end:
+                return p_curr["distance"]
+            print(p_curr)
+
+            neighbors = self.data.neighborhood(p_curr, 1)
+
+            for neighbor in neighbors:
+                neighbor = self.data.vs.find(neighbor)
+
+                if neighbor["name"] not in self.unvisited:
+                    continue
+
+                if neighbor["distance"] is None:
+                    neighbor["distance"] = p_curr["distance"] + 1
+                else:
+                    neighbor["distance"] = min(
+                        neighbor["distance"], p_curr["distance"] + 1
+                    )
+
+                if neighbor["value"] - p_curr["value"] <= 1:
+                    queue.append(neighbor)
+
+            self.unvisited.remove(p_curr["name"])
 
 
 # answer = Solution("day_12/puzzle_12_data.txt")

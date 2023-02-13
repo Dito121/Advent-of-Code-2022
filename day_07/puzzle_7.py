@@ -111,7 +111,7 @@ class Solution:
         return self.file_to_delete
 
 
-answer = Solution("day_7/puzzle_7_data.txt")
+answer = Solution("day_07/puzzle_7_data.txt")
 answer.solve_part_1(answer.root)
 print("Solution to Puzzle 7 Part 1: ", answer.part1)
 print("Solution to Puzzle 7 Part 2: ", answer.solve_part_2())

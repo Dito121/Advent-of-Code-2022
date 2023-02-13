@@ -97,6 +97,6 @@ class Solution:
         return my_points
 
 
-answer = Solution("day_2/puzzle_2_data.txt")
+answer = Solution("day_02/puzzle_2_data.txt")
 print("Solution to Puzzle 2 Part 1: ", answer.solve_part_1())
 print("Solution to Puzzle 2 Part 2: ", answer.solve_part_2())

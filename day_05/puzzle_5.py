@@ -119,6 +119,6 @@ class Solution:
         return self.part2
 
 
-answer = Solution("day_5/puzzle_5_data.txt")
+answer = Solution("day_05/puzzle_5_data.txt")
 print("Solution to Puzzle 5 Part 1: ", answer.solve_part_1())
 print("Solution to Puzzle 5 Part 2: ", answer.solve_part_2())
