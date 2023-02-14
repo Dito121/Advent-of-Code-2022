@@ -21,13 +21,24 @@ class Solution:
 
         return new_edges
 
+    def create_graph(self, vertices, edges, names, values):
+        self.unvisited = set(names)
+        self.data = ig.Graph(n=vertices, edges=edges)
+        self.data.vs["name"] = names
+        self.data.vs["value"] = values
+        self.reset_graph_distances()
+
+    def reset_graph_distances(self):
+        self.data.vs["distance"] = [None] * self.data.vcount()
+
     def read_file(self):
         names, values, edges = [], [], []
 
         with open(self.file) as file:
             file = list(file.readlines())
-            p_curr = 0
             vertices = len(file) * len(file[-1])
+            self.all_lowest = []
+            p_curr = 0
 
             for row in range(len(file)):
                 file[row] = file[row].strip()
@@ -35,8 +46,11 @@ class Solution:
                 for col in range(len(file[row])):
                     if file[row][col] == "S":
                         self.start = (row, col)
+                        self.all_lowest.append((row, col))
                     elif file[row][col] == "E":
                         self.end = (row, col)
+                    elif file[row][col] == "a":
+                        self.all_lowest.append((row, col))
 
                     edges.extend(
                         self.add_edges(row, col, p_curr, len(file[row]), len(file))
@@ -46,11 +60,10 @@ class Solution:
                     values.append(self.values[file[row][col]])
                     p_curr += 1
 
-        self.unvisited = set(names)
-        self.data = ig.Graph(n=vertices, edges=edges)
-        self.data.vs["name"] = names
-        self.data.vs["value"] = values
-        self.data.vs["distance"] = [None] * len(values)
+        self.create_graph(vertices, edges, names, values)
+
+    def get_unvisited(self):
+        return self.unvisited.copy()
 
     def plot_data(self):
         layout = self.data.layout("kk")
@@ -59,15 +72,20 @@ class Solution:
         ig.plot(self.data, layout=layout, target=ax)
         plt.show()
 
-    def solve_part_1(self):
-        start = self.data.vs.find(name=self.start)
+    def solve_part_1(self, start=None):
+        if start is None:
+            start = self.data.vs.find(name=self.start)
+        else:
+            start = self.data.vs.find(name=start)
+
+        unvisited = self.get_unvisited()
         start["distance"] = 0
         queue = [start]
 
         while queue:
             p_curr = queue.pop(0)
 
-            if p_curr["name"] not in self.unvisited:
+            if p_curr["name"] not in unvisited:
                 continue
             if p_curr["name"] == self.end:
                 return p_curr["distance"]
@@ -78,7 +96,7 @@ class Solution:
                 neighbor = self.data.vs.find(neighbor)
 
                 if (
-                    neighbor["name"] not in self.unvisited
+                    neighbor["name"] not in unvisited
                     or neighbor["value"] - p_curr["value"] > 1
                 ):
                     continue
@@ -92,10 +110,17 @@ class Solution:
 
                 queue.append(neighbor)
 
-            self.unvisited.remove(p_curr["name"])
+            unvisited.remove(p_curr["name"])
 
     def solve_part_2(self):
-        return
+        result = self.data.vs.find(name=self.end)["distance"]
+
+        for lowest in self.all_lowest:
+            self.reset_graph_distances()
+            res = self.solve_part_1(start=lowest)
+            result = min(result, res)
+
+        return result
 
 
 if __name__ == "__main__":
