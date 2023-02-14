@@ -117,8 +117,8 @@ class Solution:
 
         for lowest in self.all_lowest:
             self.reset_graph_distances()
-            res = self.solve_part_1(start=lowest)
-            result = min(result, res)
+            if res := self.solve_part_1(start=lowest):
+                result = min(result, res)
 
         return result
 
