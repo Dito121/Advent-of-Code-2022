@@ -42,6 +42,7 @@ class Solution:
         return
 
 
-# answer = Solution("day_10/puzzle_10_data.txt")
-# print("Solution to Puzzle 10 Part 1: ", answer.solve_part_1())
-# print("Solution to Puzzle 10 Part 2: ", answer.solve_part_2())
+if __name__ == "__main__":
+    answer = Solution("day_10/puzzle_10_data.txt")
+    print("Solution to Puzzle 10 Part 1: ", answer.solve_part_1())
+    print("Solution to Puzzle 10 Part 2: ", answer.solve_part_2())

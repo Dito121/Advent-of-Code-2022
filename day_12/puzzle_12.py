@@ -11,7 +11,7 @@ class Solution:
         self.values["E"] = 25
         self.read_file()
 
-    def add_edges(self, row, col, p_curr, width, length, edges):
+    def add_edges(self, row, col, p_curr, width, length):
         new_edges = []
 
         if row != length - 1:
@@ -39,9 +39,7 @@ class Solution:
                         self.end = (row, col)
 
                     edges.extend(
-                        self.add_edges(
-                            row, col, p_curr, len(file[row]), len(file), edges
-                        )
+                        self.add_edges(row, col, p_curr, len(file[row]), len(file))
                     )
 
                     names.append((row, col))
@@ -73,14 +71,16 @@ class Solution:
                 continue
             if p_curr["name"] == self.end:
                 return p_curr["distance"]
-            print(p_curr)
 
             neighbors = self.data.neighborhood(p_curr, 1)
 
             for neighbor in neighbors:
                 neighbor = self.data.vs.find(neighbor)
 
-                if neighbor["name"] not in self.unvisited:
+                if (
+                    neighbor["name"] not in self.unvisited
+                    or neighbor["value"] - p_curr["value"] > 1
+                ):
                     continue
 
                 if neighbor["distance"] is None:
@@ -90,12 +90,16 @@ class Solution:
                         neighbor["distance"], p_curr["distance"] + 1
                     )
 
-                if neighbor["value"] - p_curr["value"] <= 1:
-                    queue.append(neighbor)
+                queue.append(neighbor)
 
             self.unvisited.remove(p_curr["name"])
 
+    def solve_part_2(self):
+        return
 
-# answer = Solution("day_12/puzzle_12_data.txt")
-# answer.solve_part_1()
-# answer.plot_data()
+
+if __name__ == "__main__":
+    answer = Solution("day_12/puzzle_12_data.txt")
+    print("Solution to Puzzle 12 Part 1: ", answer.solve_part_1())
+    print("Solution to Puzzle 12 Part 2: ", answer.solve_part_2())
+    # answer.plot_data()

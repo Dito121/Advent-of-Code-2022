@@ -37,6 +37,7 @@ class Solution:
         return self.start_of_packet_marker(14)
 
 
-answer = Solution("day_06/puzzle_6_data.txt")
-print("Solution to Puzzle 6 Part 1: ", answer.solve_part_1())
-print("Solution to Puzzle 6 Part 2: ", answer.solve_part_2())
+if __name__ == "__main__":
+    answer = Solution("day_06/puzzle_6_data.txt")
+    print("Solution to Puzzle 6 Part 1: ", answer.solve_part_1())
+    print("Solution to Puzzle 6 Part 2: ", answer.solve_part_2())

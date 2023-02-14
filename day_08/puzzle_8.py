@@ -120,6 +120,7 @@ class Solution:
         return self.part2
 
 
-answer = Solution("day_08/puzzle_8_data.txt")
-print("Solution to Puzzle 8 Part 1: ", answer.solve_part_1())
-print("Solution to Puzzle 8 Part 2: ", answer.solve_part_2())
+if __name__ == "__main__":
+    answer = Solution("day_08/puzzle_8_data.txt")
+    print("Solution to Puzzle 8 Part 1: ", answer.solve_part_1())
+    print("Solution to Puzzle 8 Part 2: ", answer.solve_part_2())
