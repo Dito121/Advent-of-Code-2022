@@ -5,9 +5,10 @@ class Solution:
     def __init__(self, file: str):
         self.file = file
         self.data = []
-        self.part1 = 0
         self.max_space = 70_000_000
         self.space_needed = 30_000_000
+        self.part1 = 0
+
         self.read_file()
         self.create_tree()
 
@@ -81,7 +82,7 @@ class Solution:
                 p_right += 1
         # print(RenderTree(self.root))  # use this to see tree in terminal
 
-    def solve_part_1(self, node):
+    def solve_part_1(self, node: Node) -> int:
         dir_size = 0
 
         for child in node.children:
@@ -95,14 +96,14 @@ class Solution:
             self.part1 += dir_size
         return dir_size
 
-    def solve_part_2(self):
+    def solve_part_2(self) -> int:
         unused_space = self.max_space - self.root.size
-        self.space_needed -= unused_space
+        space_needed = self.space_needed - unused_space
         self.file_to_delete = self.root.size
 
-        def traverse_tree(node):
+        def traverse_tree(node: Node):
             for child in node.children:
-                if child.type == "dir" and child.size >= self.space_needed:
+                if child.type == "dir" and child.size >= space_needed:
                     self.file_to_delete = min(self.file_to_delete, child.size)
                     traverse_tree(child)
 
