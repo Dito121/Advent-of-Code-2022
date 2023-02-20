@@ -51,17 +51,11 @@ class Puzzle1:
             add final elf's total calorie count to self.elves
             """
             self.update_elves(count)
-
-    def max_n_calories(self) -> int:
-        """
-        returns total number of calories of the n elves with the most calories
-        """
-        return sum(self.elves)
+        self.answer = sum(self.elves)
 
 
 if __name__ == "__main__":
-    part1 = Puzzle1("day_01/puzzle_1_data.txt")
-    print("Solution to Puzzle 1 Part 1: ", part1.max_n_calories())
-
-    part2 = Puzzle1("day_01/puzzle_1_data.txt", 3)
-    print("Solution to Puzzle 1 Part 2: ", part2.max_n_calories())
+    print("Solution to Puzzle 1 Part 1: ", Puzzle1("day_01/puzzle_1_data.txt").answer)
+    print(
+        "Solution to Puzzle 1 Part 2: ", Puzzle1("day_01/puzzle_1_data.txt", 3).answer
+    )
