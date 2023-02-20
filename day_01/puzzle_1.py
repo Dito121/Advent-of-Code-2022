@@ -1,9 +1,12 @@
-class Solution:
-    def __init__(self, file: str):
+class Puzzle1:
+    def __init__(self, file: str) -> None:
+        if type(file) != str:
+            raise TypeError("filename must be a string")
+
         self.file = file
         self.read_file()
 
-    def read_file(self):
+    def read_file(self) -> None:
         self.elves = []
 
         with open(self.file, "r") as file:
@@ -50,6 +53,6 @@ class Solution:
 
 
 if __name__ == "__main__":
-    answer = Solution("day_01/puzzle_1_data.txt")
-    print(answer.max_calories())
-    print(answer.max_n_calories(3))
+    answer = Puzzle1("day_01/puzzle_1_data.txt")
+    print("Solution to Puzzle 1 Part 1: ", answer.max_calories())
+    print("Solution to Puzzle 1 Part 2: ", answer.max_n_calories(3))
