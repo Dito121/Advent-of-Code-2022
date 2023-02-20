@@ -2,11 +2,16 @@ from anytree import Node, RenderTree
 
 
 class Solution:
-    def __init__(self, file: str):
+    def __init__(
+        self,
+        file: str,
+        max_space: int = 70_000_000,
+        space_needed: int = 30_000_000,
+    ):
         self.file = file
         self.data = []
-        self.max_space = 70_000_000
-        self.space_needed = 30_000_000
+        self.max_space = max_space
+        self.space_needed = space_needed
         self.part1 = 0
 
         self.read_file()
@@ -16,7 +21,10 @@ class Solution:
         with open(self.file) as file:
             self.data.extend(line.strip().split() for line in file)
 
-    def create_children(self, p_right: int, p_current: Node):
+    def show_tree(self):
+        print(RenderTree(self.root))
+
+    def create_children(self, p_right: int, p_current: Node) -> int:
         """
         Create a window from p_left to p_right that contains all files and
         directories in p_current.
@@ -60,9 +68,7 @@ class Solution:
 
     def create_tree(self):
         """
-        Create a tree using anytree library and populate it when listing files
-        and directories within the current directory pointer (p_current).
-        Create a window using a left pointer (p_left) and right pointer (p_right).
+        Creates a tree using anytree library for Node creation and populates it when listing files and directories within the current directory pointer (p_current). Creates a window using a left pointer (p_left) and right pointer (p_right).
         """
         self.root = Node("root", type="dir", size=0)
         p_current = self.root
@@ -80,7 +86,6 @@ class Solution:
                 else:
                     p_current = self.cd_to_child(p_right, p_current)
                 p_right += 1
-        # print(RenderTree(self.root))  # use this to see tree in terminal
 
     def solve_part_1(self, node: Node) -> int:
         dir_size = 0
