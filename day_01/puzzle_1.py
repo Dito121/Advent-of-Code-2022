@@ -1,5 +1,8 @@
 class Puzzle1:
     def __init__(self, file: str, n: int = 1) -> None:
+        """
+        Reads a given file and returns an integer which represents the sum of n elves with most calories.
+        """
         if type(file) != str:
             raise TypeError("filename must be a string")
         elif type(n) != int or n <= 0:
@@ -9,13 +12,19 @@ class Puzzle1:
         self.n = n
         self.read_file()
 
-    def update_elves(self, count):
+    def update_elves(self, count: int) -> None:
+        """
+        Assesses whether or not the current elf's count belongs to the max n seen thus far, then adds it if necessary.
+        """
         if count > self.elves[-1]:
             self.elves.append(count)
             self.elves.sort(reverse=True)
             del self.elves[-1]
 
     def read_file(self) -> None:
+        """
+        Parses the data from text file to n elves with most total calories.
+        """
         self.elves = [0] * self.n
 
         with open(self.file, "r") as file:
@@ -38,11 +47,14 @@ class Puzzle1:
                 """
                 self.update_elves(count)
                 count = 0
+            """
+            add final elf's total calorie count to self.elves
+            """
             self.update_elves(count)
 
     def max_n_calories(self) -> int:
         """
-        return total number of calories of the n elves with the most calories
+        returns total number of calories of the n elves with the most calories
         """
         return sum(self.elves)
 
