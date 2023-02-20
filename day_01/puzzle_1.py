@@ -1,13 +1,22 @@
 class Puzzle1:
-    def __init__(self, file: str) -> None:
+    def __init__(self, file: str, n: int = 1) -> None:
         if type(file) != str:
             raise TypeError("filename must be a string")
+        elif type(n) != int or n <= 0:
+            raise TypeError("argument, n, must be a positive integer")
 
         self.file = file
+        self.n = n
         self.read_file()
 
+    def update_elves(self, count):
+        if count > self.elves[-1]:
+            self.elves.append(count)
+            self.elves.sort(reverse=True)
+            del self.elves[-1]
+
     def read_file(self) -> None:
-        self.elves = []
+        self.elves = [0] * self.n
 
         with open(self.file, "r") as file:
             count = 0
@@ -27,32 +36,20 @@ class Puzzle1:
                 add this elf's total calorie count to self.elves
                 and reset count for next elf
                 """
-                self.elves.append(count)
+                self.update_elves(count)
                 count = 0
-            """
-            need to make sure to append the count for the final elf in the
-            text file because it would otherwise get overlooked
-            """
-            self.elves.append(count)
-        """
-        sort list of elves' calorie counts in descending order
-        """
-        self.elves.sort(reverse=True)
+            self.update_elves(count)
 
-    def max_calories(self) -> int:
-        """
-        return number of calories of elf with the most calories
-        """
-        return self.elves[0]
-
-    def max_n_calories(self, n: int) -> int:
+    def max_n_calories(self) -> int:
         """
         return total number of calories of the n elves with the most calories
         """
-        return sum(self.elves[:n])
+        return sum(self.elves)
 
 
 if __name__ == "__main__":
-    answer = Puzzle1("day_01/puzzle_1_data.txt")
-    print("Solution to Puzzle 1 Part 1: ", answer.max_calories())
-    print("Solution to Puzzle 1 Part 2: ", answer.max_n_calories(3))
+    part1 = Puzzle1("day_01/puzzle_1_data.txt")
+    print("Solution to Puzzle 1 Part 1: ", part1.max_n_calories())
+
+    part2 = Puzzle1("day_01/puzzle_1_data.txt", 3)
+    print("Solution to Puzzle 1 Part 2: ", part2.max_n_calories())
