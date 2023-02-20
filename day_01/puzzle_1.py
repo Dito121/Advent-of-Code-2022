@@ -1,57 +1,45 @@
 class Puzzle1:
-    def __init__(self, file: str, n: int = 1) -> None:
+    def __init__(self, file_path: str, n: int = 1) -> None:
         """
         Reads a given file and returns an integer which represents the sum of n elves with most calories.
         """
-        if type(file) != str:
+        if type(file_path) != str:
             raise TypeError("filename must be a string")
         elif type(n) != int or n <= 0:
             raise TypeError("argument, n, must be a positive integer")
 
-        self.file = file
+        self.file = file_path
         self.n = n
-        self.read_file()
+        self.top_n_elves = [0] * self.n
+        self._read_file()
 
-    def update_elves(self, count: int) -> None:
+    def _update_top_n_elves(self, calories: int) -> None:
         """
         Assesses whether or not the current elf's count belongs to the max n seen thus far, then adds it if necessary.
         """
-        if count > self.elves[-1]:
-            self.elves.append(count)
-            self.elves.sort(reverse=True)
-            del self.elves[-1]
+        if calories > self.top_n_elves[-1]:
+            self.top_n_elves.append(calories)
+            self.top_n_elves.sort(reverse=True)
+            del self.top_n_elves[-1]
 
-    def read_file(self) -> None:
+    def _read_file(self) -> None:
         """
         Parses the data from text file to n elves with most total calories.
         """
-        self.elves = [0] * self.n
 
         with open(self.file, "r") as file:
-            count = 0
-            """
-            open the text file that contains the data of calories each elf has
-            """
+            calories = 0
+
             for line in file:
-                line = line.strip()
-                """
-                each line that is not representing the end of an elf's snacks
-                (using an empty line) is added to the current elf's count
-                """
-                if line != "":
-                    count += int(line)
+                if line := line.strip():
+                    calories += int(line)
                     continue
-                """
-                add this elf's total calorie count to self.elves
-                and reset count for next elf
-                """
-                self.update_elves(count)
-                count = 0
-            """
-            add final elf's total calorie count to self.elves
-            """
-            self.update_elves(count)
-        self.answer = sum(self.elves)
+
+                self._update_top_n_elves(calories)
+                calories = 0
+
+            self._update_top_n_elves(calories)
+        self.answer = sum(self.top_n_elves)
 
 
 if __name__ == "__main__":
