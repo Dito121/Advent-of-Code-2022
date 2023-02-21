@@ -6,7 +6,7 @@ class Puzzle1:
         if type(file_path) != str:
             raise TypeError("filename must be a string")
         elif type(n) != int or n <= 0:
-            raise TypeError("argument, n, must be a positive integer")
+            raise TypeError("optional argument, n, must be a positive integer")
 
         self.file = file_path
         self.n = n
@@ -26,7 +26,6 @@ class Puzzle1:
         """
         Parses the data from text file to n elves with most total calories.
         """
-
         with open(self.file, "r") as file:
             calories = 0
 
@@ -39,6 +38,7 @@ class Puzzle1:
                 calories = 0
 
             self._update_top_n_elves(calories)
+
         self.answer = sum(self.top_n_elves)
 
 

@@ -41,6 +41,9 @@ class Puzzle2:
         won: dict = WON,
         lost: dict = LOST,
     ) -> None:
+        if type(file) != str:
+            raise TypeError("file must be a string.")
+
         self.file = file
         self.hand = hand
         self.key = key
