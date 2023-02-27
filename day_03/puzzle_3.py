@@ -1,5 +1,5 @@
 class Solution:
-    def __init__(self, file: str):
+    def __init__(self, file: str) -> None:
         self.file = file
         letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
         self.key = {letters[i]: i + 1 for i in range(len(letters))}
@@ -7,19 +7,16 @@ class Solution:
 
     def read_file(self):
         """
-        read self.file and strip each line as it is added to self.data
+        Reads the file and strips each line as it is added to data.
         """
         with open(self.file, "r") as file:
             self.data = [line.strip() for line in file]
 
     def solve_part_1(self) -> int:
+        """
+        Iterates through the left half of data line by line and checks if each character is in the right half. Keeps track of associated value of characters that are found to be in both halves, break once found.
+        """
         self.sum = 0
-        """
-        iterate through the left half of self.data line by line and check
-        if each character is in the right half.
-        keep track of associated value of characters that are found to be
-        in both halves, break once found
-        """
         for i in range(len(self.data)):
             midpoint = len(self.data[i]) // 2
             right = self.data[i][midpoint:]

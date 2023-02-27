@@ -1,12 +1,10 @@
-HAND = {
+KEY = {
     "A": "rock",
     "B": "paper",
     "C": "scissors",
     "X": "rock",
     "Y": "paper",
     "Z": "scissors",
-}
-KEY = {
     "rock": 1,
     "paper": 2,
     "scissors": 3,
@@ -29,27 +27,30 @@ LOST = {
     "rock": "scissors",
     "scissors": "paper",
 }
+RESULTS = {
+    ("rock", "rock"): ("draw", 4),
+    ("rock", "paper"): ("lost", 1),
+    ("rock", "scissors"): ("won", 7),
+    ("paper", "rock"): ("won", 8),
+    ("paper", "paper"): ("draw", 5),
+    ("paper", "scissors"): ("lost", 2),
+    ("scissors", "rock"): ("lost", 3),
+    ("scissors", "paper"): ("won", 9),
+    ("scissors", "scissors"): ("draw", 6),
+}
 
 
 class Puzzle2:
-    def __init__(
-        self,
-        file: str,
-        hand: dict = HAND,
-        key: dict = KEY,
-        end: dict = END,
-        won: dict = WON,
-        lost: dict = LOST,
-    ) -> None:
+    def __init__(self, file: str) -> None:
         if type(file) != str:
             raise TypeError("file must be a string.")
 
         self.file = file
-        self.hand = hand
-        self.key = key
-        self.end = end
-        self.won = won
-        self.lost = lost
+        self.key = KEY
+        self.end = END
+        self.won = WON
+        self.lost = LOST
+        self.RESULTS = RESULTS
         self.data = []
         self._read_file()
 
@@ -60,29 +61,12 @@ class Puzzle2:
         with open(self.file) as file:
             self.data.extend(line.strip().split() for line in file)
 
-    def _get_result(self, me: str, you: str) -> int:
+    def _get_result_part1(self, me: str, you: str) -> int:
         """
         Returns points won during each game for part 1 only.
         """
-        result = 0
-        if me == you:
-            result += self.key["draw"] + self.key[me]
-        elif me == "rock":
-            if you == "paper":
-                result += self.key[me] + self.key["lost"]
-            else:
-                result += self.key[me] + self.key["won"]
-        elif me == "paper":
-            if you == "scissors":
-                result += self.key[me] + self.key["lost"]
-            else:
-                result += self.key[me] + self.key["won"]
-        else:
-            if you == "rock":
-                result += self.key[me] + self.key["lost"]
-            else:
-                result += self.key[me] + self.key["won"]
-        return result
+        result, points = self.RESULTS[(me, you)]
+        return points
 
     def solve_part_1(self) -> int:
         """
@@ -90,9 +74,9 @@ class Puzzle2:
         """
         my_points = 0
         for line in self.data:
-            you = self.hand[line[0]]
-            me = self.hand[line[-1]]
-            my_points += self._get_result(me, you)
+            you = self.key[line[0]]
+            me = self.key[line[-1]]
+            my_points += self._get_result_part1(me, you)
 
         return my_points
 
@@ -102,7 +86,7 @@ class Puzzle2:
         """
         my_points = 0
         for line in self.data:
-            you = self.hand[line[0]]
+            you = self.key[line[0]]
             end = self.end[line[-1]]
 
             if end == "draw":
