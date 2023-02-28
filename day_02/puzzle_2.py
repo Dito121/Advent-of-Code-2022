@@ -40,6 +40,9 @@ RESULTS_PART2 = {
 
 class Puzzle2:
     def __init__(self, file: str) -> None:
+        """
+        Reads the given file and returns how many points one would end with if they use the prescribed conditions for the Rock Paper Scissors tournament.
+        """
         if type(file) != str or not file:
             raise TypeError("file must be a string.")
 

@@ -29,12 +29,10 @@ class Solution:
         return self.sum
 
     def solve_part_2(self) -> int:
+        """
+        For every three lines in self.data, finds the letter in all three by iterating through line i and checking if letter is in both i+1 and i+2.
+        """
         self.sum = 0
-        """
-        for every three lines in self.data, find the letter in all
-        three by iterating through line i and checking if letter
-        is in both i+1 and i+2
-        """
         for i in range(0, len(self.data), 3):
             for j in range(len(self.data[i])):
                 if (
