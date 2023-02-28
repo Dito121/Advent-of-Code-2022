@@ -1,11 +1,17 @@
 class Solution:
     def __init__(self, file: str) -> None:
+        """
+        Reads the given file and returns the answer to Puzzle 3 from Advent of Code 2022.
+        """
+        if type(file) is not str or not file:
+            raise TypeError("file must be a string.")
+
         self.file = file
         letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
         self.key = {letters[i]: i + 1 for i in range(len(letters))}
-        self.read_file()
+        self._read_file()
 
-    def read_file(self):
+    def _read_file(self) -> None:
         """
         Reads the file and strips each line as it is added to data.
         """
@@ -16,33 +22,33 @@ class Solution:
         """
         Iterates through the left half of data line by line and checks if each character is in the right half. Keeps track of associated value of characters that are found to be in both halves, break once found.
         """
-        self.sum = 0
+        result = 0
         for i in range(len(self.data)):
             midpoint = len(self.data[i]) // 2
-            right = self.data[i][midpoint:]
+            left = self.data[i][:midpoint]
+            right = set(self.data[i][midpoint:])
 
-            for j in range(midpoint):
-                if self.data[i][j] in right:
-                    self.sum += self.key[self.data[i][j]]
+            for char in left:
+                if char in right:
+                    result += self.key[char]
                     break
 
-        return self.sum
+        return result
 
     def solve_part_2(self) -> int:
         """
-        For every three lines in self.data, finds the letter in all three by iterating through line i and checking if letter is in both i+1 and i+2.
+        For every three lines in self.data, finds the letter in all three by iterating through ith line and checking if each letter is in both i+1th line and i+2th line.
         """
-        self.sum = 0
-        for i in range(0, len(self.data), 3):
-            for j in range(len(self.data[i])):
-                if (
-                    self.data[i][j] in self.data[i + 1]
-                    and self.data[i][j] in self.data[i + 2]
-                ):
-                    self.sum += self.key[self.data[i][j]]
+        result = 0
+        for line1, line2, line3 in zip(
+            self.data[::3], self.data[1::3], self.data[2::3]
+        ):
+            for char in line1:
+                if char in line2 and char in line3:
+                    result += self.key[char]
                     break
 
-        return self.sum
+        return result
 
 
 if __name__ == "__main__":

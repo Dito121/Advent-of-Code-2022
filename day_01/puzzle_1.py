@@ -1,14 +1,14 @@
 class Puzzle1:
-    def __init__(self, file_path: str, n: int = 1) -> None:
+    def __init__(self, file: str, n: int = 1) -> None:
         """
         Reads a given file and returns an integer which represents the sum of n elves with most calories.
         """
-        if type(file_path) != str:
+        if type(file) is not str or not file:
             raise TypeError("filename must be a string")
         elif type(n) != int or n <= 0:
             raise TypeError("optional argument, n, must be a positive integer")
 
-        self.file = file_path
+        self.file = file
         self.n = n
         self.top_n_elves = [0] * self.n
         self._read_file()
